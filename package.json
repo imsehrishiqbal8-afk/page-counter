@@ -1,0 +1,25 @@
+{
+  "name": "website-page-counter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Complete browser-based Website Page Counter tool with XML sitemap parser and recursive internal link crawler.",
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build:client": "npm --prefix client run build",
+    "build:server": "npm --prefix server run build",
+    "build": "npm run build:client && npm run build:server",
+    "start": "node server/dist/index.js",
+    "test": "npm --prefix server test"
+  },
+  "keywords": [
+    "page-counter",
+    "sitemap-analyzer",
+    "crawler",
+    "seo-tool",
+    "website-crawler"
+  ],
+  "author": "",
+  "license": "MIT"
+}
