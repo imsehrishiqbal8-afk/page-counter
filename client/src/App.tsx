@@ -26,6 +26,8 @@ const INITIAL_STATS: ScanStats = {
   sitemapLocations: []
 };
 
+const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+
 export const App: React.FC = () => {
   const [url, setUrl] = useState('');
   const [mode, setMode] = useState<ScanMode>('both');
@@ -87,7 +89,7 @@ export const App: React.FC = () => {
     }
 
     try {
-      const response = await fetch('/api/scan/start', {
+      const response = await fetch(`${API_BASE}/api/scan/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -110,7 +112,7 @@ export const App: React.FC = () => {
       if (data.stats) setStats(data.stats);
 
       // Connect to Server-Sent Events stream
-      const sse = new EventSource(`/api/scan/${data.scanId}/stream`);
+      const sse = new EventSource(`${API_BASE}/api/scan/${data.scanId}/stream`);
       eventSourceRef.current = sse;
 
       sse.onmessage = event => {
@@ -165,7 +167,7 @@ export const App: React.FC = () => {
     if (!scanId) return;
 
     try {
-      await fetch(`/api/scan/${scanId}/stop`, { method: 'POST' });
+      await fetch(`${API_BASE}/api/scan/${scanId}/stop`, { method: 'POST' });
     } catch (err) {
       console.error('Error requesting scan stop:', err);
     }
@@ -196,7 +198,7 @@ export const App: React.FC = () => {
 
   const handleExportCsv = () => {
     if (!scanId) return;
-    window.location.href = `/api/scan/${scanId}/export/csv`;
+    window.location.href = `${API_BASE}/api/scan/${scanId}/export/csv`;
   };
 
   const latestLog = logs.length > 0 ? logs[logs.length - 1] : undefined;
